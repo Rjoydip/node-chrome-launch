@@ -61,6 +61,9 @@ driver.quit();
 ***send a Keys into a input***
 
 ```js
+const webdriver = require("selenium-webdriver"),
+        By = webdriver.By;
+
 driver.findElement(By.name('q')).sendKeys('webdriver');
 ```
 
