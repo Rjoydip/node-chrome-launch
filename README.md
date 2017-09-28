@@ -13,21 +13,32 @@ $ node index
 
 > Note: Puppeteer requires at least Node v6.4.0, but the examples below use async/await which is only supported in Node v7.6.0 or greater
 
+## Open chrome new window natively(command)
+
+```js
+(() => {
+    console.log("Please wait ...");
+    const CHROME = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
+    spawn(CHROME, ['--headless --new-window --disable-gpu http://google.co.in'])
+        .on("error", function (error) {
+            console.log("Error!!! : " + error);
+            throw error;
+        });
+})()
+```
+
 ## Using puppeteer
 
 ```js
 const puppeteer = require('puppeteer');
 
 (async() => {
-
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     await page.goto('https://google.co.in', {
         waitUntil: 'networkidle'
     });
-
     await browser.close();
-
 })();
 ```
 
@@ -36,11 +47,9 @@ const puppeteer = require('puppeteer');
 ```js
 const webdriver = require("selenium-webdriver");
 const chromedriver = require('chromedriver');
-
 const driver = new webdriver.Builder()
     .forBrowser("chrome")
     .build();
-
 driver.get("http://google.co.in");
 driver.quit();
 ```
