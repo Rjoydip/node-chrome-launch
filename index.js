@@ -6,14 +6,15 @@ const puppeteer = require('puppeteer');
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('https://www.kiwi.com', {
+
+    console.log("Please wait ...");
+
+    await page.goto('https://www.google.co.in', {
         waitUntil: 'networkidle'
     });
 
-    await page.screenshot({
-        path: `./screenshots/${Date.now()}.png`
-    });
-
+    console.log("Content loaded");
+    console.log(page);
     await browser.close();
 
 })();

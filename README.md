@@ -22,7 +22,7 @@ const puppeteer = require('puppeteer');
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('https://www.google.co.in', {
+    await page.goto('https://google.co.in', {
         waitUntil: 'networkidle'
     });
 
