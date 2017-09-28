@@ -2,33 +2,22 @@
 
 const puppeteer = require('puppeteer');
 const spawn = require('child_process').spawn;
+const html2json = require('html2json').html2json;
 
-/*
 (async() => {
     const browser = await puppeteer.launch({
         headless: true,
     });
     const page = await browser.newPage();
-
+    page.on('console', console.log);
     console.log("Please wait ...");
-
-    await page.goto('https://www.google.co.in', {
+    await page.goto('https://www.google.co.in/flights', {
         waitUntil: 'networkidle'
     });
-    console.log("Content loaded");
-    console.log(page);
-    // await browser.close();
+    const bodyHandle = await page.$('body table table tbody table tbody td');
+    const html = await page.evaluate(async body => body.innerHTML, bodyHandle);
+    // const htmlJSON = await html2json(html);
+    console.log(html);
+    await bodyHandle.dispose();
+    await browser.close();
 })();
-*/
-
-
-(() => {
-    console.log("Please wait ...");
-
-    const CHROME = 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe';
-    spawn(CHROME, ['--headless --new-window --disable-gpu http://google.co.in'])
-        .on("error", function (error) {
-            console.log("Error!!! : " + error);
-            throw error;
-        });
-})()
