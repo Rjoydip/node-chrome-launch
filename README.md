@@ -22,15 +22,10 @@ const puppeteer = require('puppeteer');
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
-    await page.goto('https://www.kiwi.com', {
+    await page.goto('https://www.google.co.in', {
         waitUntil: 'networkidle'
     });
 
-    await page.screenshot({
-        path: `./screenshots/${Date.now()}.png`
-    });
-
-    console.log(links.join('\n'));
     await browser.close();
 
 })();
@@ -48,4 +43,25 @@ const driver = new webdriver.Builder()
 
 driver.get("http://google.co.in");
 driver.quit();
+```
+
+## Automatic actions
+
+> Below example are automatic actions activity 
+
+***send a Keys into a input***
+
+```js
+driver.findElement(By.name('q')).sendKeys('webdriver');
+```
+
+***click a button button***
+
+```js
+driver.findElement(By.name('btnK')).click();
+```
+
+***maximize window***
+```js
+driver.manage().window().maximize() 
 ```

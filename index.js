@@ -1,13 +1,19 @@
 "use strict";
 
-const webdriver = require("selenium-webdriver"),
-    By = webdriver.By,
-    chromedriver = require('chromedriver');
+const puppeteer = require('puppeteer');
 
-const driver = new webdriver.Builder()
-    .forBrowser("chrome")
-    .build();
+(async() => {
 
-driver.get("http://google.co.in");
-driver.findElement(By.name('q')).sendKeys('webdriver');
-// driver.quit();
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto('https://www.kiwi.com', {
+        waitUntil: 'networkidle'
+    });
+
+    await page.screenshot({
+        path: `./screenshots/${Date.now()}.png`
+    });
+
+    await browser.close();
+
+})();
