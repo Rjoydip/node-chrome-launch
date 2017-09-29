@@ -1,46 +1,20 @@
 "use strict";
 
-const puppeteer = require('puppeteer');
+const webdriver = require("selenium-webdriver");
+const By = webdriver.By;
+const chromedriver = require('chromedriver');
 
 (async() => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    console.log("Please wait");
-    await page.goto('https://www.yatra.com/', {
-        waitUntil: 'networkidle'
-    });
-    await page.on('console', console.log);
-    console.log("Content loaded");
+    const driver = await new webdriver.Builder()
+        .forBrowser("chrome")
+        .build();
 
-    const BE_flight_origin_city = await page.evaluate((data) => {
-        return document.querySelector("#BE_flight_origin_city").value = "Kolkata"
-    }, err => console.log(err));
+    await driver.manage().window().maximize()
+    // go to site
+    await driver.get("https://www.yatra.com");
 
-    const BE_flight_arrival_city = await page.evaluate((data) => {
-        return document.querySelector("#BE_flight_arrival_city").value = "Bangalore"
-    }, err => console.log(err));
-
-    const BE_flight_depart_date = await page.evaluate((data) => {
-        return document.querySelector("#BE_flight_depart_date").value = "28/9/2017"
-    }, err => console.log(err));
-
-    const BE_flight_return_date = await page.evaluate((data) => {
-        return document.querySelector("#BE_flight_return_date").value = "29/9/2017"
-    }, err => console.log(err));
-
-    const searchForm = await page.evaluate((data) => {
-        return document.querySelector("#BE_flight_flsearch_btn").submit();
-    }, err => console.log(err));
-
-    console.log(searchForm);
-
-    await page.evaluate((data) => {
-        console.log(
-            BE_flight_origin_city, document.querySelector("#BE_flight_origin_city").value, "|",
-            BE_flight_arrival_city, document.querySelector("#BE_flight_arrival_city").value, "|",
-            BE_flight_depart_date, document.querySelector("#BE_flight_depart_date").value, "|",
-            BE_flight_return_date, document.querySelector("#BE_flight_return_date").value, "|"
-        )
-    });
-    // await browser.close();
-})();
+    // find target element
+    driver.findElement(By.name('flight_origin_city')).sendKeys('kolkata');
+    driver.findElement(By.name('flight_destination_city')).sendKeys('bangalore');
+    await driver.quit();
+})()
